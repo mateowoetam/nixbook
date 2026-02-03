@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 echo "This will update your Nixbook and shut down"
 read -p "Do you want to continue? (y/n): " answer
 if [[ $answer =~ ^[Yy]$ ]];then
@@ -6,9 +7,7 @@ sudo systemctl stop auto-upgrade.service
 /etc/nixbook/channel.sh
 /etc/nixbook/repair.sh
 sudo systemctl start auto-update-config.service
-# Free up space before updates
 nix-collect-garbage --delete-older-than 30d
-# get the updates
 sudo nixos-rebuild boot --upgrade
 systemctl poweroff
 else
