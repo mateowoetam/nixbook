@@ -1,22 +1,16 @@
-echo "This will update your Nixbook and shut down";
+echo "This will update your Nixbook and shut down"
 read -p "Do you want to continue? (y/n): " answer
-
-if [[ "$answer" =~ ^[Yy]$ ]]; then
-  echo "Updating Nixbook..."
-  sudo systemctl stop auto-upgrade.service
-  
-  /etc/nixbook/channel.sh
-  /etc/nixbook/repair_lite.sh
-
-  sudo systemctl start auto-update-config.service;
-
-  # Free up space before updates
-  nix-collect-garbage --delete-older-than 14d
-
-  # get the updates
-  sudo nixos-rebuild boot --upgrade
-
-  systemctl poweroff
+if [[ $answer =~ ^[Yy]$ ]];then
+echo "Updating Nixbook..."
+sudo systemctl stop auto-upgrade.service
+/etc/nixbook/channel.sh
+/etc/nixbook/repair_lite.sh
+sudo systemctl start auto-update-config.service
+# Free up space before updates
+nix-collect-garbage --delete-older-than 14d
+# get the updates
+sudo nixos-rebuild boot --upgrade
+systemctl poweroff
 else
-  echo "Update Cancelled!"
+echo "Update Cancelled!"
 fi
